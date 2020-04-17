@@ -26,23 +26,31 @@ void ATankAIController::BeginPlay()
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	(void)FindPlayerLocation();
+	// player location placeholder 
+	FVector PlayerLocation;
+	// check if the AI can "see" the player
+	if (DetectPlayer(PlayerLocation))
+	{
+		// move the turret to the player location
+		GetControlledTank()->AimAt(PlayerLocation);
+		// fire if at location
+	}
 }
 
-FVector ATankAIController::FindPlayerLocation() const
+bool ATankAIController::DetectPlayer(FVector& PlayerLocation) const
 {
 	APawn* GamePlayer = GetWorld()->GetFirstPlayerController()->GetPawn();
 	if (GamePlayer)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT(" IA (%s) found Player at (%s)"), *GetControlledTank()->GetName(), *GamePlayer->GetName());
-		return GamePlayer->GetActorLocation();
+		PlayerLocation = GamePlayer->GetActorLocation();
+		return true;
 	}
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT(" IA (%s) couldn't find Player!"), *GetOwner()->GetName());
 	}
-	return FVector();
+	return false;
 }
 
 ATank* ATankAIController::GetControlledTank() const

@@ -24,5 +24,5 @@ private:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	FVector FindPlayerLocation() const;
+	bool DetectPlayer(FVector& PlayerLocation) const;
 };
