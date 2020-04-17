@@ -76,6 +76,11 @@ void UTankAimingComponent::MoveBarrelTo(const FVector& AimDirection)
 	FRotator DeltaRotator = AimDirectionRotator - BarrelRotation;
 	// don't care about the pitch itself, whatever comes in will be clamped
 	TankBarrelComponent->ElevateBarrel(DeltaRotator.Pitch);
+	// always try to find the shortest path to the azimuth, in order to avoid 
+	if (FMath::Abs(DeltaRotator.Yaw) > 180.F)
+	{
+		DeltaRotator.Yaw *= -1.F;
+	}
 	TankTurretComponent->TurnTurret(DeltaRotator.Yaw);
 }
 

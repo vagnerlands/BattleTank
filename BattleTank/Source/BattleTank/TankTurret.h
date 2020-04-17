@@ -22,6 +22,4 @@ private:
 	UPROPERTY(EditAnywhere, Category = Setup)
 	float TurningSpeed = 5.f;
 
-	UTankTurret* TankTurretReference = nullptr;
-
 };
