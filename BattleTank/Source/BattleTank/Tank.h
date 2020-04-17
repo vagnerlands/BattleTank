@@ -21,6 +21,8 @@ public:
 	void SetBarrelReference(UTankBarrel* BarrelRef);
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret* TurretReference);
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void Fire();
 
 protected:
 	// Called when the game starts or when spawned
