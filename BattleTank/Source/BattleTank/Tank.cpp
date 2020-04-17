@@ -7,7 +7,7 @@
 ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	// create a default aiming component for the blueprint
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
@@ -18,13 +18,6 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 	
-}
-
-// Called every frame
-void ATank::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -39,7 +32,12 @@ void ATank::AimAt(const FVector& HitLocation)
 	TankAimingComponent->AimAt(HitLocation, FiringForce);
 }
 
-void ATank::SetBarrelReference(UStaticMeshComponent* BarrelRef)
+void ATank::SetBarrelReference(UTankBarrel* BarrelRef)
 {
 	TankAimingComponent->SetBarrelReference(BarrelRef);
+}
+
+void ATank::SetTurretReference(UTankTurret* TurretReference)
+{
+	TankAimingComponent->SetTurretReference(TurretReference);
 }

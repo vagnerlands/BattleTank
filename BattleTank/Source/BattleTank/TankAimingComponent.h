@@ -6,6 +6,9 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+class UTankBarrel;
+class UTankTurret;
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -18,9 +21,14 @@ public:
 
 	void AimAt(const FVector& AimAtWorldPosition, const float FiringForce);
 
-	FORCEINLINE void SetBarrelReference(UStaticMeshComponent* BarrelRef)
+	FORCEINLINE void SetBarrelReference(UTankBarrel* BarrelRef)
 	{
 		TankBarrelComponent = BarrelRef;
+	}
+
+	FORCEINLINE void SetTurretReference(UTankTurret* TurretRef)
+	{
+		TankTurretComponent = TurretRef;
 	}
 
 	// Called every frame
@@ -33,6 +41,10 @@ protected:
 private:
 	// Set the refenrece to the Tank Barrel, this shall be used for the ammo animation
 	UPROPERTY()
-	UStaticMeshComponent* TankBarrelComponent = nullptr;
+	UTankBarrel* TankBarrelComponent = nullptr;
+	UPROPERTY()
+	UTankTurret* TankTurretComponent = nullptr;
+
+	void MoveBarrelTo(const FVector& AimDirection);
 		
 };
