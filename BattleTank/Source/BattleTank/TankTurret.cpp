@@ -9,6 +9,6 @@ void UTankTurret::TurnTurret(float RelativeSpeed)
 	float NewAzimuth = RelativeSpeed * TurningSpeed * GetWorld()->DeltaTimeSeconds;
 	NewAzimuth += RelativeRotation.Yaw;
 
-	UE_LOG(LogTemp, Warning, TEXT(" %f: TurnTurret %f => %f"), GetWorld()->GetTimeSeconds(), RelativeSpeed, NewAzimuth);
+	//UE_LOG(LogTemp, Warning, TEXT(" %f: TurnTurret %f => %f"), GetWorld()->GetTimeSeconds(), RelativeSpeed, NewAzimuth);
 	SetRelativeRotation(FRotator(0, NewAzimuth, 0));
 }

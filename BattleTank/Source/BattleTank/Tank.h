@@ -7,6 +7,8 @@
 #include "TankAimingComponent.h"
 #include "Tank.generated.h"
 
+class ATankProjectile;
+
 UCLASS()
 class BATTLETANK_API ATank : public APawn
 {
@@ -40,4 +42,10 @@ private:
 	UPROPERTY(EditAnywhere, Category = Setup)
 	float FiringForce = 10000.f;
 
+	// reference to the projectile blueprint
+	UPROPERTY(EditAnywhere, Category = Firing)
+	TSubclassOf< ATankProjectile > ProjectileBP;
+
+	// local tank barrel
+	UTankBarrel* Barrel = nullptr;
 };

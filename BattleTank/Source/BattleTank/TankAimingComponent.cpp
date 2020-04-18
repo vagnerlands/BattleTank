@@ -59,7 +59,7 @@ void UTankAimingComponent::AimAt(const FVector& AimAtWorldPosition, const float 
 	{	
 		FVector AimDirection = OutVelocity.GetSafeNormal();
 		MoveBarrelTo(AimDirection);
-		UE_LOG(LogTemp, Warning, TEXT(" %f: Tank (%s) firing direction (%s) "), GetWorld()->GetTimeSeconds(), *GetOwner()->GetName(), *AimDirection.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT(" %f: Tank (%s) firing direction (%s) "), GetWorld()->GetTimeSeconds(), *GetOwner()->GetName(), *AimDirection.ToString());
 	}
 	else
 	{
