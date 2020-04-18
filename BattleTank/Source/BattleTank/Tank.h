@@ -39,8 +39,14 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	// Set the speed of the projectile..
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditAnywhere, Category = Firing)
 	float FiringForce = 10000.f;
+	
+	// Reload time in seconds
+	UPROPERTY(EditAnywhere, Category = Firing)
+	double TankReloadTime = 5;
+
+	double LastFireTime = -1;
 
 	// reference to the projectile blueprint
 	UPROPERTY(EditAnywhere, Category = Firing)

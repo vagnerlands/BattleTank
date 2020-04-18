@@ -33,13 +33,20 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATank::Fire()
 {
 	if (!Barrel) { return; }
-
-	FVector ProjectileLocation = Barrel->GetSocketLocation(FName("Projectile"));
-	FRotator ProjectileRotation = Barrel->GetSocketRotation(FName("Projectile"));
+	// did we manage to reload the tank yet?
+	const bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > TankReloadTime;
 	
-	GetWorld()->SpawnActor<ATankProjectile>(ProjectileBP, ProjectileLocation, ProjectileRotation);
-
-	UE_LOG(LogTemp, Warning, TEXT(" %f: Spawn projectile at %s"), GetWorld()->GetTimeSeconds(), *ProjectileLocation.ToString());
+	if (isReloaded)
+	{
+		FVector ProjectileLocation = Barrel->GetSocketLocation(FName("Projectile"));
+		FRotator ProjectileRotation = Barrel->GetSocketRotation(FName("Projectile"));
+		// creates an actor "projectile"
+		ATankProjectile* ProjectileObject = GetWorld()->SpawnActor<ATankProjectile>(ProjectileBP, ProjectileLocation, ProjectileRotation);
+		// Actually shoots the projectile
+		ProjectileObject->LaunchProjectile(FiringForce);
+		// Update the last fire time for reload purposes
+		LastFireTime = FPlatformTime::Seconds();
+	}
 }
 
 void ATank::AimAt(const FVector& HitLocation)

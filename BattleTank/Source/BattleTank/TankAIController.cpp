@@ -10,30 +10,22 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	ATank* ThisTank = GetControlledTank();
-
-	if (ThisTank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT(" AI Tank possessed (%s)"), *ThisTank->GetName());
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT(" AI Tank has possessed NO Tank"));
-	}
 }
 
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	// Tank Pawn reference
+	ATank* ThisTank = Cast<ATank>(GetPawn());
 	// player location placeholder 
 	FVector PlayerLocation;
 	// check if the AI can "see" the player
 	if (DetectPlayer(PlayerLocation))
 	{
 		// move the turret to the player location
-		GetControlledTank()->AimAt(PlayerLocation);
+		ThisTank->AimAt(PlayerLocation);
 		// fire if at location
+		ThisTank->Fire();
 	}
 }
 
@@ -51,9 +43,4 @@ bool ATankAIController::DetectPlayer(FVector& PlayerLocation) const
 		UE_LOG(LogTemp, Error, TEXT(" IA (%s) couldn't find Player!"), *GetOwner()->GetName());
 	}
 	return false;
-}
-
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
 }
