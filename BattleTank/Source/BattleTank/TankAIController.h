@@ -22,5 +22,10 @@ private:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	bool DetectPlayer(FVector& PlayerLocation) const;
+	APawn* FindPlayer() const;
+
+
+	// What is the distance the AI tank will keep from the player
+	UPROPERTY(EditAnywhere, Category=Setup)
+	float AcceptanceRadius = 3000.f;
 };

@@ -18,29 +18,29 @@ void ATankAIController::Tick(float DeltaTime)
 	// Tank Pawn reference
 	ATank* ThisTank = Cast<ATank>(GetPawn());
 	// player location placeholder 
-	FVector PlayerLocation;
+	APawn* HumanPlayer = FindPlayer();
 	// check if the AI can "see" the player
-	if (DetectPlayer(PlayerLocation))
+	if (HumanPlayer)
 	{
+		// Move toward the player
+		MoveToActor(HumanPlayer, AcceptanceRadius);
 		// move the turret to the player location
-		ThisTank->AimAt(PlayerLocation);
+		ThisTank->AimAt(HumanPlayer->GetActorLocation());
 		// fire if at location
 		ThisTank->Fire();
 	}
 }
 
-bool ATankAIController::DetectPlayer(FVector& PlayerLocation) const
+APawn* ATankAIController::FindPlayer() const
 {
-	APawn* GamePlayer = GetWorld()->GetFirstPlayerController()->GetPawn();
-	if (GamePlayer)
+	APawn* HumanPlayer = GetWorld()->GetFirstPlayerController()->GetPawn();
+	if (HumanPlayer)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT(" IA (%s) found Player at (%s)"), *GetControlledTank()->GetName(), *GamePlayer->GetName());
-		PlayerLocation = GamePlayer->GetActorLocation();
-		return true;
+		return HumanPlayer;
 	}
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT(" IA (%s) couldn't find Player!"), *GetOwner()->GetName());
 	}
-	return false;
+	return nullptr;
 }
