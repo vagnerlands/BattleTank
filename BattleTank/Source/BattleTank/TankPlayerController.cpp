@@ -23,6 +23,18 @@ void ATankPlayerController::BeginPlay()
 
 	// get the screen dimensions
 	GetViewportSize(ViewportWidth, ViewportHeight);
+
+	// generate event for when the aimingcomponent was created
+	UTankAimingComponent* AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (AimingComponent)
+	{
+		FoundAimingComponent(AimingComponent);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Couldn't find an Aiming Component for %s"), *GetName());
+	}
+
 }
 
 void ATankPlayerController::Tick(float DeltaTime)

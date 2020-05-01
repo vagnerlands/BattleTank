@@ -15,8 +15,15 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
-private:
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank* GetControlledTank() const;
+
+	// creates an event for finding the aiming component - to be provided to the HUD aiming 
+	UFUNCTION(BlueprintImplementableEvent, Category="Setup")
+	void FoundAimingComponent(UTankAimingComponent* AimingComponent);
+
+private:
 
 	virtual void BeginPlay() override;
 

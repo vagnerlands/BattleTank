@@ -7,9 +7,8 @@
 void 
 UTankMovementComponent::IntendMoveForward(float Throw)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"), Throw);
-
-	// TODO: clamp maximum speed 
+	// check for nullptrs
+	if ((!LeftTrack) || (!RightTrack)) { return; }
 
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
@@ -18,6 +17,9 @@ UTankMovementComponent::IntendMoveForward(float Throw)
 void 
 UTankMovementComponent::IntendTurnRight(float Throw)
 {
+	// check for nullptrs
+	if ((!LeftTrack) || (!RightTrack)) { return; }
+
 	LeftTrack->SetThrottle(-Throw);
 	RightTrack->SetThrottle(Throw);
 }
@@ -43,6 +45,7 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	float TurnIntend = FVector::CrossProduct(Movement, TankForwardVector).Z;
 	IntendTurnRight(TurnIntend);
 
+	// Alternative solution, 
 	//float TurnIntend = FVector::DotProduct(Movement, TankRightVector);
 	//IntendTurnRight(TurnIntend);
 

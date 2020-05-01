@@ -9,6 +9,16 @@
 class UTankBarrel;
 class UTankTurret;
 
+// Enumerator
+UENUM()
+enum class EFiringState : uint8
+{
+	eAiming = 0,
+	eLocked,
+	eReloading
+};
+
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -21,28 +31,37 @@ public:
 
 	void AimAt(const FVector& AimAtWorldPosition, const float FiringForce);
 
-	FORCEINLINE void SetBarrelReference(UTankBarrel* BarrelRef)
-	{
-		TankBarrelComponent = BarrelRef;
-	}
+	bool IsReadyToFire() const;
 
-	FORCEINLINE void SetTurretReference(UTankTurret* TurretRef)
-	{
-		TankTurretComponent = TurretRef;
-	}
+	//FORCEINLINE void SetBarrelReference(UTankBarrel* BarrelRef)
+	//{
+	//	TankBarrelComponent = BarrelRef;
+	//}
+
+	//FORCEINLINE void SetTurretReference(UTankTurret* TurretRef)
+	//{
+	//	TankTurretComponent = TurretRef;
+	//}
 
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	UFUNCTION(BlueprintCallable, Category="Setup")
+	void Initialize(UTankBarrel* pTankBarrel, UTankTurret* pTankTurret);
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	// current firing state
+	UPROPERTY(BlueprintReadOnly)
+	EFiringState FiringState = EFiringState::eLocked;
+
 private:
 	// Set the refenrece to the Tank Barrel, this shall be used for the ammo animation
-	UPROPERTY()
+	//UPROPERTY()
 	UTankBarrel* TankBarrelComponent = nullptr;
-	UPROPERTY()
+	//UPROPERTY()
 	UTankTurret* TankTurretComponent = nullptr;
 
 	void MoveBarrelTo(const FVector& AimDirection);

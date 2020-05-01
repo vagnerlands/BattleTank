@@ -33,20 +33,21 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::Fire()
 {
-	if (!Barrel) { return; }
-	// did we manage to reload the tank yet?
-	const bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > TankReloadTime;
+	if (!TankAimingComponent) { return; }
 	
-	if (isReloaded)
+	// did we manage to reload the tank yet?
+//	const bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > TankReloadTime;
+
+	if (TankAimingComponent->IsReadyToFire())
 	{
-		FVector ProjectileLocation = Barrel->GetSocketLocation(FName("Projectile"));
-		FRotator ProjectileRotation = Barrel->GetSocketRotation(FName("Projectile"));
-		// creates an actor "projectile"
-		ATankProjectile* ProjectileObject = GetWorld()->SpawnActor<ATankProjectile>(ProjectileBP, ProjectileLocation, ProjectileRotation);
-		// Actually shoots the projectile
-		ProjectileObject->LaunchProjectile(FiringForce);
-		// Update the last fire time for reload purposes
-		LastFireTime = FPlatformTime::Seconds();
+		//FVector ProjectileLocation = Barrel->GetSocketLocation(FName("Projectile"));
+		//FRotator ProjectileRotation = Barrel->GetSocketRotation(FName("Projectile"));
+		//// creates an actor "projectile"
+		//ATankProjectile* ProjectileObject = GetWorld()->SpawnActor<ATankProjectile>(ProjectileBP, ProjectileLocation, ProjectileRotation);
+		//// Actually shoots the projectile
+		//ProjectileObject->LaunchProjectile(FiringForce);
+		//// Update the last fire time for reload purposes
+		//LastFireTime = FPlatformTime::Seconds();
 	}
 }
 
@@ -55,15 +56,3 @@ void ATank::AimAt(const FVector& HitLocation)
 	TankAimingComponent->AimAt(HitLocation, FiringForce);
 }
 
-void ATank::SetBarrelReference(UTankBarrel* BarrelRef)
-{
-	// keeps a local reference in tank too
-	Barrel = BarrelRef;
-	// pass the reference to aiming component
-	TankAimingComponent->SetBarrelReference(BarrelRef);
-}
-
-void ATank::SetTurretReference(UTankTurret* TurretReference)
-{
-	TankAimingComponent->SetTurretReference(TurretReference);
-}

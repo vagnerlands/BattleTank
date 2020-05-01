@@ -19,11 +19,12 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 
+	UFUNCTION(BlueprintCallable, Category = Setup)
 	void AimAt(const FVector& HitLocation);
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UTankBarrel* BarrelRef);
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretReference(UTankTurret* TurretReference);
+	//UFUNCTION(BlueprintCallable, Category = Setup)
+	//void SetBarrelReference(UTankBarrel* BarrelRef);
+	//UFUNCTION(BlueprintCallable, Category = Setup)
+	//void SetTurretReference(UTankTurret* TurretReference);
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Fire();
 
@@ -31,7 +32,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	//UPROPERTY(BlueprintCallable)
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
@@ -55,7 +56,4 @@ private:
 	// reference to the projectile blueprint
 	UPROPERTY(EditAnywhere, Category = Firing)
 	TSubclassOf< ATankProjectile > ProjectileBP;
-
-	// local tank barrel
-	UTankBarrel* Barrel = nullptr;
 };
